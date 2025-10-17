@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loan Status Prediction</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>💼 Loan Status Prediction</h1>
+      <p>Get instant loan approval prediction with AI</p>
+    </div>
+
+    <form id="loanForm" class="form-grid">
+      <div class="form-group">
+        <label>Gender</label>
+        <select id="gender">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Married</label>
+        <select id="married">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Education</label>
+        <select id="education">
+          <option>Graduate</option>
+          <option>Not Graduate</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Self Employed</label>
+        <select id="self_employed">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Applicant Income</label>
+        <input type="number" id="applicant_income" placeholder="e.g. 5000">
+      </div>
+
+      <div class="form-group">
+        <label>Coapplicant Income</label>
+        <input type="number" id="coapplicant_income" placeholder="e.g. 2000">
+      </div>
+
+      <div class="form-group">
+        <label>Loan Amount</label>
+        <input type="number" id="loan_amount" placeholder="e.g. 150">
+      </div>
+
+      <div class="form-group">
+        <label>Loan Term (in days)</label>
+        <input type="number" id="loan_term" placeholder="e.g. 360">
+      </div>
+
+      <div class="form-group">
+        <label>Credit History</label>
+        <select id="credit_history">
+          <option value="1">1</option>
+          <option value="0">0</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Property Area</label>
+        <select id="property_area">
+          <option>Urban</option>
+          <option>Semiurban</option>
+          <option>Rural</option>
+        </select>
+      </div>
+    </form>
+
+    <div class="actions">
+      <button type="button" onclick="sendData()">Predict Loan Status</button>
+    </div>
+
+    <div id="result" class="result-box"></div>
+  </div>
+
+  <footer>
+    <p>© 2025 Loan Predictor | Powered by Machine Learning</p>
+  </footer>
+
+  <script>
+    async function sendData() {
+      const data = {
+        gender: document.getElementById('gender').value,
+        married: document.getElementById('married').value,
+        education: document.getElementById('education').value,
+        self_employed: document.getElementById('self_employed').value,
+        applicant_income: document.getElementById('applicant_income').value,
+        coapplicant_income: document.getElementById('coapplicant_income').value,
+        loan_amount: document.getElementById('loan_amount').value,
+        loan_term: document.getElementById('loan_term').value,
+        credit_history: document.getElementById('credit_history').value,
+        property_area: document.getElementById('property_area').value
+      };
+
+      const response = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      document.getElementById('result').innerText = "✅ " + result.prediction;
+      document.getElementById('result').classList.add('show');
+    }
+  </script>
+</body>
+</html>
